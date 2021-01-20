@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { Role } from "./Role";
 
 export default class User {
     public readonly id: string;
@@ -15,9 +16,4 @@ export default class User {
             this.id = uuidv4();
         }
     }
-
-}
-
-enum Role {
-    ADMIN, COMMON
 }
