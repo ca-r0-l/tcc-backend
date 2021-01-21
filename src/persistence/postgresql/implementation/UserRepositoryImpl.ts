@@ -40,7 +40,7 @@ export default class UserRepositoryImpl implements UserRepository {
         return this.toUser(await userRepository.findOne({ where : {email: email}}));
     }
 
-    private toUser(userModel?: UserModel): User {        
+    private toUser(userModel?: UserModel): User | null{
         if (userModel !== null && userModel !== undefined) {
             return {
                 id: userModel.id,

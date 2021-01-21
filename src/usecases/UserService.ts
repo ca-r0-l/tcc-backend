@@ -16,7 +16,7 @@ export default class UserService {
         if (!await this.verifyEmailAlreadyExists(user.email)) {
             throw new InputError("Email already exists");
         }
-
+        
         return await this.userRepository.save(user);
     }
 
@@ -26,7 +26,7 @@ export default class UserService {
 
     private async verifyEmailAlreadyExists(email: string): Promise<boolean> {
         const user = await this.findByEmail(email);
-        if (user != null) return true;
+        if (user === null) return true;
         return false;
     }
 

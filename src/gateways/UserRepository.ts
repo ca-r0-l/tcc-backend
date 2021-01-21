@@ -7,5 +7,5 @@ export default interface UserRepository {
 
     findById(id: string): Promise<User>
 
-    findByEmail(email: string): Promise<User?>
+    findByEmail(email: string): Promise<User | null>
 }
