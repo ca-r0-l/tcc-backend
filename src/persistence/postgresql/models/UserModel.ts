@@ -13,7 +13,7 @@ export default class UserModel {
     department: string;
     
     @Column()
-    role: string;
+    role: number;
     
     @Column()
     email: string;

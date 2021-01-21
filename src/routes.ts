@@ -7,6 +7,7 @@ import UserRepositoryImpl from "./persistence/postgresql/implementation/UserRepo
 const routes = Router();
 const userController = new UserController(new UserService(new UserRepositoryImpl()));
 
+routes.get('/user', userController.findAll.bind(userController));
 routes.post('/user', userController.save.bind(userController));
 
 export default routes;
