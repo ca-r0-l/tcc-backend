@@ -41,6 +41,44 @@ export default class UserController {
         );
     }
 
+    public async update(req: Request, res: Response) {
+
+        const {
+            id,
+            name,
+            department,
+            role,
+            email,
+            password
+        } = req.body;
+
+        const data = {
+            id,
+            name,
+            department,
+            role,
+            email,
+            password
+        };
+
+        const schema = yup.object().shape({
+            id: yup.string().required(),
+            name: yup.string().required(),
+            department: yup.string().required(),
+            role: yup.number().required(),
+            email: yup.string().email().required(),
+            password: yup.string().required()
+        });
+
+        await schema.validate(data, {
+            abortEarly: false
+        });
+
+        return res.status(201).json(
+            await this.userService.update(data)
+        );
+    }
+
     public async login(req: Request, res: Response) {
         const {
             email,

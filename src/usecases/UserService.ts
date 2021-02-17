@@ -36,6 +36,28 @@ export default class UserService {
         } as User);
     }
 
+    public async update(user: User): Promise<User> {
+
+        var plainPassword = user.password;  
+        var hashData = saltHashPassword(plainPassword);  
+        var password = hashData.passwordHash;  
+        var salt = hashData.salt;
+
+        if (this.verifyRoleNotExists(user)) {
+            throw new InputError("Tipo de conta não existe");
+        }
+        
+        return await this.userRepository.update({
+            id: user.id,
+            name: user.name,
+            department: user.department,
+            role: user.role,
+            email: user.email,
+            password: password,
+            salt: salt
+        } as User);
+    }
+
     private verifyRoleNotExists(user: User): boolean {
         return getRole(user.role) !== Role.ADMIN && getRole(user.role) !== Role.COMMON;
     }

@@ -14,6 +14,7 @@ const zoneController = new ZoneController(new ZoneService(new ZoneRepositoryImpl
 routes.get('/user', userController.findAll.bind(userController));
 routes.get('/user/:id', userController.findById.bind(userController));
 routes.post('/user', userController.save.bind(userController));
+routes.put('/user', userController.update.bind(userController));
 routes.post('/login', userController.login.bind(userController));
 
 
