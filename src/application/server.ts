@@ -1,8 +1,8 @@
 import express from "express";
 import "express-async-errors";
 import cors from "cors";
-import "./database/connection";
-import errorHandler from "./errors/handler";
+import "../database/connection";
+import errorHandler from "../errors/handler";
 import routes from "./routes";
 
 require("dotenv").config()
@@ -14,4 +14,4 @@ app.use(express.json())
 app.use(routes);
 app.use(errorHandler);
 
-app.listen(3333);
+app.listen(process.env.PORT || 3333);

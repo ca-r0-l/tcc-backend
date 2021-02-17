@@ -1,13 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import Zone from "./Zone";
 
-export default class Rfid {
+export default class Zone {
     public readonly id: string;
     public name: string;
-    public location: Zone;
-    public helixId: string;
-
-    constructor(props: Omit<Rfid, "id">, id?: string) {
+    
+    constructor(props: Omit<Zone, "id">, id?: string) {
         Object.assign(this, props);
 
         if (!id) {

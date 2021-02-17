@@ -32,7 +32,9 @@ export default class UserRepositoryImpl implements UserRepository {
     }
 
     public async findById(id: string): Promise<User> {
-        throw new Error("Method not implemented.");
+        const userRepository = getRepository(UserModel);
+        
+        return this.toUser(await userRepository.findOne({ where : {id: id}}));
     }
     
     public async findByEmail(email: string): Promise<User> {

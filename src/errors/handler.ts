@@ -3,6 +3,7 @@ import { ValidationError } from "yup";
 import EmailNotFoundError from "./EmailNotFoundError";
 import InputError from "./InputError";
 import PasswordNotMatchError from "./PasswordNotMatchError";
+import ZoneExistsError from "./ZoneExistsError";
 
 interface ValidationErrors {
     [key: string]: string[];
@@ -28,6 +29,10 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     }
 
     if (error instanceof EmailNotFoundError) {
+        return res.status(400).json({ message: error.message });
+    }
+
+    if (error instanceof ZoneExistsError) {
         return res.status(400).json({ message: error.message });
     }
 

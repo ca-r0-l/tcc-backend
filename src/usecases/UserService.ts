@@ -18,11 +18,11 @@ export default class UserService {
         var salt = hashData.salt;
 
         if (this.verifyRoleNotExists(user)) {
-            throw new InputError("Role not exists");
+            throw new InputError("Tipo de conta não existe");
         }
         
         if (!await this.verifyEmailAlreadyExists(user.email)) {
-            throw new InputError("Email already exists");
+            throw new InputError("Email já existe");
         }
         
         return await this.userRepository.save({
@@ -48,6 +48,10 @@ export default class UserService {
 
     public async findByEmail(email: string): Promise<User | null> {
         return await this.userRepository.findByEmail(email);
+    }
+
+    public async findById(id: string): Promise<User | null> {
+        return await this.userRepository.findById(id);
     }
 
     public async findAll(): Promise<User[]> {
