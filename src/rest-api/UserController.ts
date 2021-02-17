@@ -41,6 +41,35 @@ export default class UserController {
         );
     }
 
+    public async login(req: Request, res: Response) {
+        const {
+            email,
+            password,
+            salt
+        } = req.body;
+
+        const data = {
+            email,
+            password,
+            salt
+        };
+
+        const schema = yup.object().shape({
+            email: yup.string().email().required(),
+            password: yup.string().required(),
+            salt: yup.string().required()
+        });
+
+        await schema.validate(data, {
+            abortEarly: false
+        });
+
+        return res.status(200).json(
+            await this.userService.login(email, password, salt)
+        );
+
+    }
+
     public async findAll(req: Request, res: Response) {
         return res.status(200).json(await this.userService.findAll());
     }

@@ -13,5 +13,4 @@ export default class Agv {
             this.id = uuidv4();
         }
     }
-
 }

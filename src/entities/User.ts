@@ -8,6 +8,7 @@ export default class User {
     public role: Role;
     public email: string;
     public password: string;
+    public salt?: string;
 
     constructor(props: Omit<User, "id">, id?: string) {
         Object.assign(this, props);

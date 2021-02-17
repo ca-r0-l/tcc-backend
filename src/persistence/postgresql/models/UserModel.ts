@@ -20,4 +20,7 @@ export default class UserModel {
     
     @Column()
     password: string;
+    
+    @Column()
+    salt: string;
 }

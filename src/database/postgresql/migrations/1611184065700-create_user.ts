@@ -32,6 +32,10 @@ export class createUser1611184065700 implements MigrationInterface {
                     name: "password",
                     type: "varchar",
                 },
+                {
+                    name: "salt",
+                    type: "varchar",
+                },
             ]
         }));
     }

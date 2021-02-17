@@ -10,4 +10,6 @@ const userController = new UserController(new UserService(new UserRepositoryImpl
 routes.get('/user', userController.findAll.bind(userController));
 routes.post('/user', userController.save.bind(userController));
 
+routes.post('/login', userController.login.bind(userController));
+
 export default routes;

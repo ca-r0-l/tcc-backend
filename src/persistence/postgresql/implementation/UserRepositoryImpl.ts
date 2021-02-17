@@ -15,7 +15,8 @@ export default class UserRepositoryImpl implements UserRepository {
             department: user.department,
             role: user.role,
             email: user.email,
-            password: user.password
+            password: user.password,
+            salt: user.salt
         } as UserModel
         
         return this.toUser(await userRepository.save(
@@ -49,6 +50,7 @@ export default class UserRepositoryImpl implements UserRepository {
                 role: getRole(userModel.role),
                 email: userModel.email,
                 password: userModel.password,
+                salt: userModel.salt,
             } as User;
         } else {
             return null;

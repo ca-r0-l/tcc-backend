@@ -1,6 +1,8 @@
 import {ErrorRequestHandler } from "express";
 import { ValidationError } from "yup";
+import EmailNotFoundError from "./EmailNotFoundError";
 import InputError from "./InputError";
+import PasswordNotMatchError from "./PasswordNotMatchError";
 
 interface ValidationErrors {
     [key: string]: string[];
@@ -17,7 +19,15 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
         return res.status(400).json({ message: "Validation fails", errors: errors });
     }
     
-    if (error instanceof InputError) {        
+    if (error instanceof InputError) {
+        return res.status(400).json({ message: error.message });
+    }
+
+    if (error instanceof PasswordNotMatchError) {
+        return res.status(400).json({ message: error.message });
+    }
+
+    if (error instanceof EmailNotFoundError) {
         return res.status(400).json({ message: error.message });
     }
 
