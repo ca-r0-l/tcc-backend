@@ -3,7 +3,6 @@ import User from "../entities/User";
 import UserRepository from "../gateways/UserRepository";
 import InputError from "../errors/InputError";
 import { checkHashPassword, saltHashPassword } from "../services/LoginService";
-import { response } from "express";
 import EmailNotFoundError from "../errors/EmailNotFoundError";
 import PasswordNotMatchError from "../errors/PasswordNotMatchError";
 
@@ -59,9 +58,9 @@ export default class UserService {
         const user = await this.findByEmail(email);
 
         if (user) {
-            const hashed_password = checkHashPassword(password, salt).passwordHash;
-            const encrypted_password = user.password;
-            if (hashed_password === encrypted_password) {  
+            const hashedPassword = checkHashPassword(password, salt).passwordHash;
+            const encryptedPassword = user.password;
+            if (hashedPassword === encryptedPassword) {  
                 return true;
             } else {  
                 throw new PasswordNotMatchError("Senha incorreta");
