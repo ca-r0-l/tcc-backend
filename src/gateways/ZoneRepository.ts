@@ -5,7 +5,7 @@ export default interface ZoneRepository {
     
     findAll(): Promise<Zone[]>
 
-    findById(id: string): Promise<Zone>
+    findById(id: string): Promise<Zone | null>
 
     findByName(name: string): Promise<Zone | null>
 }

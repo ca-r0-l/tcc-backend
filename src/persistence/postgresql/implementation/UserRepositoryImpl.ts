@@ -51,13 +51,13 @@ export default class UserRepositoryImpl implements UserRepository {
         return allUsers.map(user => this.toUser(user));
     }
 
-    public async findById(id: string): Promise<User> {
+    public async findById(id: string): Promise<User | null> {
         const userRepository = getRepository(UserModel);
         
         return this.toUser(await userRepository.findOne({ where : {id: id}}));
     }
     
-    public async findByEmail(email: string): Promise<User> {
+    public async findByEmail(email: string): Promise<User | null> {
         const userRepository = getRepository(UserModel);
 
         return this.toUser(await userRepository.findOne({ where : {email: email}}));

@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("agv")
+@Entity("agvs")
 export default class AgvModel {
 
     @PrimaryGeneratedColumn()

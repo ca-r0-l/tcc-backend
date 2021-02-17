@@ -4,7 +4,7 @@ import Zone from "./Zone";
 export default class Rfid {
     public readonly id: string;
     public name: string;
-    public location: Zone;
+    public zone: Zone;
     public helixId: string;
 
     constructor(props: Omit<Rfid, "id">, id?: string) {
