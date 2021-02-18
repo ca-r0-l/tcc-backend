@@ -8,17 +8,12 @@ export default class ZoneRepositoryImpl implements RfidRepository {
     public async save(rfid: Rfid): Promise<Rfid> {
         const rfidRepository = getRepository(RfidModel);
 
-        console.log('\n\n\n', rfid, '\n\n\n\n');
-
         const rfidToSave = {
             id: rfid.id,
             name: rfid.name,
             zone: rfid.zone,
             helixId: rfid.helixId,
         } as RfidModel
-
-        console.log('\n\n\n', rfidToSave, '\n\n\n\n');
-        
         
         return this.toRfid(await rfidRepository.save(
             rfidRepository.create(rfidToSave)

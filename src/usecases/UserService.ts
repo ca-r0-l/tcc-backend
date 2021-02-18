@@ -17,13 +17,9 @@ export default class UserService {
         var password = hashData.passwordHash;  
         var salt = hashData.salt;
 
-        if (this.verifyRoleNotExists(user)) {
-            throw new InputError("Tipo de conta não existe");
-        }
+        this.checkRoleExist(user);
         
-        if (!await this.verifyEmailAlreadyExists(user.email)) {
-            throw new InputError("Email já existe");
-        }
+        await this.checkEmailExist(user.email);
         
         return await this.userRepository.save({
             id: user.id,
@@ -43,9 +39,7 @@ export default class UserService {
         var password = hashData.passwordHash;  
         var salt = hashData.salt;
 
-        if (this.verifyRoleNotExists(user)) {
-            throw new InputError("Tipo de conta não existe");
-        }
+        this.checkRoleExist(user);
         
         return await this.userRepository.update({
             id: user.id,
@@ -58,14 +52,17 @@ export default class UserService {
         } as User);
     }
 
-    private verifyRoleNotExists(user: User): boolean {
-        return getRole(user.role) !== Role.ADMIN && getRole(user.role) !== Role.COMMON;
+    private checkRoleExist(user: User): void {
+        if (getRole(user.role) !== Role.ADMIN && getRole(user.role) !== Role.COMMON) {
+            throw new InputError("Tipo de conta não existe");
+        }
     }
 
-    private async verifyEmailAlreadyExists(email: string): Promise<boolean> {
+    private async checkEmailExist(email: string): Promise<void> {
         const user = await this.findByEmail(email);
-        if (user === null) return true;
-        return false;
+        if (user !== null) {
+            throw new InputError("Email já existe");
+        }
     }
 
     public async findByEmail(email: string): Promise<User | null> {

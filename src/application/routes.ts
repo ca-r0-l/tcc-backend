@@ -13,9 +13,14 @@ import RfidController from "../rest-api/RfidController";
 import RfidService from "../usecases/RfidService";
 
 const routes = Router();
-const userController = new UserController(new UserService(new UserRepositoryImpl()));
-const zoneController = new ZoneController(new ZoneService(new ZoneRepositoryImpl()));
-const rfidController = new RfidController(new RfidService(new RfidRepositoryImpl(), new ZoneRepositoryImpl()));
+
+const userService = new UserService(new UserRepositoryImpl());
+const zoneService = new ZoneService(new ZoneRepositoryImpl());
+const rfidService = new RfidService(new RfidRepositoryImpl(), zoneService);
+
+const userController = new UserController(userService);
+const zoneController = new ZoneController(zoneService);
+const rfidController = new RfidController(rfidService);
 
 routes.get('/user', userController.findAll.bind(userController));
 routes.get('/user/:id', userController.findById.bind(userController));

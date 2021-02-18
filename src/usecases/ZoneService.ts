@@ -8,20 +8,28 @@ export default class ZoneService {
 
     public async save(zone: Zone): Promise<Zone> {
 
-        if (!await this.verifyZoneExists(zone.name)) {
-            throw new ZoneExistsError("Zona já existe");
-        }
+        await this.checkZoneNotExist(zone.name)
         
         return await this.zoneRepository.save({
             id: zone.id,
             name: zone.name
         } as Zone);
     }
-
-    private async verifyZoneExists(name: string): Promise<boolean> {
+    
+    private async checkZoneNotExist(name: string): Promise<void> {
         const user = await this.findByName(name);
-        if (user === null) return true;
-        return false;
+        
+        if (user !== null) {
+            throw new ZoneExistsError("Zona já existe");
+        }
+    }
+    
+    public async checkZoneExist(name: string): Promise<void> {
+        const user = await this.findByName(name);
+        
+        if (user === null) {
+            throw new ZoneExistsError("Zona não existe");
+        }
     }
 
     public async findById(id: string): Promise<Zone | null> {

@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import * as yup from 'yup';
 import Rfid from "../entities/Rfid";
 import RfidService from "../usecases/RfidService";
-import Zone from "../entities/Zone";
 
 export default class RfidController {
     constructor(private rfidService: RfidService) {}
@@ -22,6 +21,10 @@ export default class RfidController {
 
         const schema = yup.object().shape({
             name: yup.string().required(),
+            zone: yup.object().shape({
+                id: yup.string().required(),
+                name: yup.string().required()
+            }),
             helixId: yup.string().required()
         });
 

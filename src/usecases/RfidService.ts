@@ -1,25 +1,26 @@
 import Rfid from "../entities/Rfid";
 import RfidRepository from "../gateways/RfidRepository";
 import RfidExistsError from "../errors/RfidExistsError";
-import ZoneRepository from "../gateways/ZoneRepository";
+import ZoneService from "./ZoneService";
 
 export default class RfidService {
 
-    constructor(private rfidRepository: RfidRepository, private zoneRepository: ZoneRepository) {}
+    constructor(private rfidRepository: RfidRepository, private zoneService: ZoneService) {}
 
     public async save(rfid: Rfid): Promise<Rfid> {
 
-        if (!await this.verifyRfidExists(rfid.helixId)) {
-            throw new RfidExistsError("Rfid já existe");
-        }        
+        await this.checkRfidExist(rfid.helixId);
+
+        await this.zoneService.checkZoneExist(rfid.name);
         
         return await this.rfidRepository.save(rfid);
     }
 
-    private async verifyRfidExists(helixId: string): Promise<boolean> {
+    private async checkRfidExist(helixId: string): Promise<void> {
         const user = await this.findByHelixId(helixId);
-        if (user === null) return true;
-        return false;
+        if (user !== null) {
+            throw new RfidExistsError("Rfid já existe");
+        }
     }
 
     public async findById(id: string): Promise<Rfid | null> {
