@@ -1,4 +1,4 @@
-import { getConnection, getRepository, UpdateResult } from "typeorm";
+import { getRepository } from "typeorm";
 import { getRole } from "../../../entities/Role";
 import User from "../../../entities/User";
 import UserRepository from "../../../gateways/UserRepository";
@@ -61,6 +61,12 @@ export default class UserRepositoryImpl implements UserRepository {
         const userRepository = getRepository(UserModel);
 
         return this.toUser(await userRepository.findOne({ where : {email: email}}));
+    }
+    
+    public async delete(id: string): Promise<void> {
+        const userRepository = getRepository(UserModel);
+
+        await userRepository.delete(id);
     }
 
     private toUser(userModel?: UserModel): User | null{

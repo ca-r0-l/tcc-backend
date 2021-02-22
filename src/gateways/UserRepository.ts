@@ -4,6 +4,8 @@ export default interface UserRepository {
     save(user: User): Promise<User>
 
     update(user: User): Promise<User>
+
+    delete(id: string): Promise<void>
     
     findAll(): Promise<User[]>
 

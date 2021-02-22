@@ -22,11 +22,12 @@ const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
 const rfidController = new RfidController(rfidService);
 
-routes.get('/user', userController.findAll.bind(userController));
 routes.get('/user/:id', userController.findById.bind(userController));
+routes.get('/user', userController.findAll.bind(userController));
 routes.post('/user', userController.save.bind(userController));
 routes.put('/user', userController.update.bind(userController));
 routes.post('/login', userController.login.bind(userController));
+routes.delete('/user/:id', userController.delete.bind(userController));
 
 
 routes.get('/zone', zoneController.findAll.bind(zoneController));

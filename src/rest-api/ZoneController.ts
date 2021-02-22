@@ -63,4 +63,20 @@ export default class ZoneController {
 
         return res.status(200).json(await this.zoneService.findByName(name));
     }
+
+    public async delete(req: Request, res: Response) {
+        const { id } = req.body;
+
+        const data = { id };
+
+        const schema = yup.object().shape({
+            id: yup.string().required()
+        });
+
+        await schema.validate(data, {
+            abortEarly: false
+        });
+
+        return res.status(200).json(await this.zoneService.delete(id));
+    }
 }

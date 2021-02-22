@@ -19,7 +19,7 @@ export default class UserService {
 
         this.checkRoleExist(user);
         
-        await this.checkEmailExist(user.email);
+        await this.checkEmailNotExist(user.email);
         
         return await this.userRepository.save({
             id: user.id,
@@ -58,7 +58,7 @@ export default class UserService {
         }
     }
 
-    private async checkEmailExist(email: string): Promise<void> {
+    private async checkEmailNotExist(email: string): Promise<void> {
         const user = await this.findByEmail(email);
         if (user !== null) {
             throw new InputError("Email já existe");
@@ -91,5 +91,9 @@ export default class UserService {
         } else {
             throw new EmailNotFoundError("Usuário com esse email não encontrado");
         }
+    }
+
+    public async delete(id: string): Promise<void> {
+        return await this.userRepository.delete(id);
     }
 }
