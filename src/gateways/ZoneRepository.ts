@@ -7,5 +7,7 @@ export default interface ZoneRepository {
 
     findById(id: string): Promise<Zone | null>
 
+    delete(id: string): Promise<void>
+
     findByName(name: string): Promise<Zone | null>
 }

@@ -130,7 +130,6 @@ export default class UserController {
 
     public async delete(req: Request, res: Response) {
         const { id } = req.params;
-        console.log(req.params);
         
         const data = { id };
 

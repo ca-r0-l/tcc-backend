@@ -65,7 +65,7 @@ export default class ZoneController {
     }
 
     public async delete(req: Request, res: Response) {
-        const { id } = req.body;
+        const { id } = req.params;
 
         const data = { id };
 

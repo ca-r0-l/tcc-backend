@@ -5,6 +5,8 @@ export default interface RfidRepository {
     
     findAll(): Promise<Rfid[]>
 
+    delete(id: string): Promise<void>
+
     findById(id: string): Promise<Rfid | null>
 
     findByHelixId(id: string): Promise<Rfid | null>

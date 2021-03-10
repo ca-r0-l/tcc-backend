@@ -4,6 +4,11 @@ import ZoneModel from "../models/ZoneModel";
 import Zone from "../../../entities/Zone";
 
 export default class ZoneRepositoryImpl implements ZoneRepository {
+    public async delete(id: string): Promise<void> {
+        const zoneRepository = getRepository(ZoneModel);
+        
+        await zoneRepository.delete(id);
+    }
     
     public async save(user: Zone): Promise<Zone> {
         const zoneRepository = getRepository(ZoneModel);

@@ -43,4 +43,8 @@ export default class ZoneService {
     public async findAll(): Promise<Zone[]> {
         return await this.zoneRepository.findAll();
     }
+
+    public async delete(id: string): Promise<void> {
+        return await this.zoneRepository.delete(id);
+    }
 }

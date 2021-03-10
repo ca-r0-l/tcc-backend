@@ -23,20 +23,22 @@ const zoneController = new ZoneController(zoneService);
 const rfidController = new RfidController(rfidService);
 
 routes.get('/user/:id', userController.findById.bind(userController));
+routes.delete('/user/:id', userController.delete.bind(userController));
 routes.get('/user', userController.findAll.bind(userController));
 routes.post('/user', userController.save.bind(userController));
 routes.put('/user', userController.update.bind(userController));
 routes.post('/login', userController.login.bind(userController));
-routes.delete('/user/:id', userController.delete.bind(userController));
 
 
-routes.get('/zone', zoneController.findAll.bind(zoneController));
 routes.get('/zone/:id', zoneController.findById.bind(zoneController));
+routes.delete('/zone/:id', zoneController.delete.bind(zoneController));
+routes.get('/zone', zoneController.findAll.bind(zoneController));
 routes.post('/zone', zoneController.save.bind(zoneController));
 
 
-routes.get('/rfid', rfidController.findAll.bind(rfidController));
 routes.get('/rfid/:id', rfidController.findById.bind(rfidController));
+routes.delete('/rfid/:id', rfidController.delete.bind(rfidController));
+routes.get('/rfid', rfidController.findAll.bind(rfidController));
 routes.post('/rfid', rfidController.save.bind(rfidController));
 
 export default routes;

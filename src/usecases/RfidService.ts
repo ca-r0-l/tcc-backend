@@ -34,4 +34,8 @@ export default class RfidService {
     public async findAll(): Promise<Rfid[]> {
         return await this.rfidRepository.findAll();
     }
+
+    public async delete(id: string): Promise<void> {
+        return await this.rfidRepository.delete(id);
+    }
 }

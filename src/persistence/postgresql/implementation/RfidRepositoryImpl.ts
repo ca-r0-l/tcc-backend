@@ -38,6 +38,12 @@ export default class ZoneRepositoryImpl implements RfidRepository {
 
         return this.toRfid(await rfidRepository.findOne({ where : {helixId: id}}));
     }
+
+    public async delete(id: string): Promise<void> {
+        const rfidRepository = getRepository(RfidModel);
+
+        await rfidRepository.delete(id);
+    }
     
     private toRfid(rfidModel?: RfidModel): Rfid | null{
         if (rfidModel !== null && rfidModel !== undefined) {
