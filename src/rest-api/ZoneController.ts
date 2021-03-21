@@ -8,15 +8,22 @@ export default class ZoneController {
     
     public async save(req: Request, res: Response) {
         const {
-            name
+            name,
+            rfid
         } = req.body;
 
         const data = {
-            name
+            name,
+            rfid
         };
 
         const schema = yup.object().shape({
-            name: yup.string().required()
+            name: yup.string().required(),
+            rfid: yup.object({
+                id: yup.string().required(),
+                name: yup.string().required(),
+                helixId: yup.string().required()
+            }).required()
         });
 
         await schema.validate(data, {

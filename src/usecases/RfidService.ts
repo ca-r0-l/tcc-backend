@@ -1,17 +1,18 @@
 import Rfid from "../entities/Rfid";
 import RfidRepository from "../gateways/RfidRepository";
 import RfidExistsError from "../errors/RfidExistsError";
-import ZoneService from "./ZoneService";
+import HelixService from "../services/HelixService";
 
 export default class RfidService {
 
-    constructor(private rfidRepository: RfidRepository, private zoneService: ZoneService) {}
+    constructor(
+        private rfidRepository: RfidRepository,
+        private helixService: HelixService
+    ) { }
 
     public async save(rfid: Rfid): Promise<Rfid> {
 
         await this.checkRfidExist(rfid.helixId);
-
-        await this.zoneService.checkZoneExist(rfid.name);
         
         return await this.rfidRepository.save(rfid);
     }
@@ -33,6 +34,10 @@ export default class RfidService {
 
     public async findAll(): Promise<Rfid[]> {
         return await this.rfidRepository.findAll();
+    }
+
+    public async findAllFromHelix(): Promise<any> {
+        return await this.helixService.getAllRfidsNames();
     }
 
     public async delete(id: string): Promise<void> {

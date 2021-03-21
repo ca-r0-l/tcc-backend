@@ -17,21 +17,9 @@ export class createRfid1613604537762 implements MigrationInterface {
                     type: "varchar",
                 },
                 {
-                    name: "zoneId",
-                    type: "varchar",
-                },
-                {
                     name: "helixId",
                     type: "varchar",
                 },
-            ],
-            foreignKeys: [
-                {
-                    name: "ZoneRfid",
-                    columnNames: ["zoneId"],
-                    referencedColumnNames: ["id"],
-                    referencedTableName: "zones"
-                }
             ]
         }));
     }

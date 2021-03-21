@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
-import ZoneModel from "./ZoneModel";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("rfids")
 export default class RfidModel {
@@ -9,10 +8,6 @@ export default class RfidModel {
     
     @Column()
     name: string;
-
-    @OneToOne(() => ZoneModel)
-    @JoinColumn()
-    zone: ZoneModel;
 
     @Column()
     helixId: string;

@@ -12,22 +12,23 @@ export default class ZoneService {
         
         return await this.zoneRepository.save({
             id: zone.id,
-            name: zone.name
+            name: zone.name,
+            rfid: zone.rfid
         } as Zone);
     }
     
     private async checkZoneNotExist(name: string): Promise<void> {
-        const user = await this.findByName(name);
+        const rfid = await this.findByName(name);
         
-        if (user !== null) {
+        if (rfid !== null) {
             throw new ZoneExistsError("Zona já existe");
         }
     }
     
     public async checkZoneExist(name: string): Promise<void> {
-        const user = await this.findByName(name);
+        const rfid = await this.findByName(name);
         
-        if (user === null) {
+        if (rfid === null) {
             throw new ZoneExistsError("Zona não existe");
         }
     }

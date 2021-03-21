@@ -11,12 +11,14 @@ import ZoneRepositoryImpl from "../persistence/postgresql/implementation/ZoneRep
 import RfidRepositoryImpl from "../persistence/postgresql/implementation/RfidRepositoryImpl";
 import RfidController from "../rest-api/RfidController";
 import RfidService from "../usecases/RfidService";
+import HelixService from "../services/HelixService";
 
 const routes = Router();
 
+const helixService = new HelixService();
 const userService = new UserService(new UserRepositoryImpl());
 const zoneService = new ZoneService(new ZoneRepositoryImpl());
-const rfidService = new RfidService(new RfidRepositoryImpl(), zoneService);
+const rfidService = new RfidService(new RfidRepositoryImpl(), helixService);
 
 const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
@@ -36,6 +38,7 @@ routes.get('/zone', zoneController.findAll.bind(zoneController));
 routes.post('/zone', zoneController.save.bind(zoneController));
 
 
+routes.get('/rfid/helix', rfidController.findAllFromHelix.bind(rfidController));
 routes.get('/rfid/:id', rfidController.findById.bind(rfidController));
 routes.delete('/rfid/:id', rfidController.delete.bind(rfidController));
 routes.get('/rfid', rfidController.findAll.bind(rfidController));

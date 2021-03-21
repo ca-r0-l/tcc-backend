@@ -1,6 +1,6 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createZone1613581492725 implements MigrationInterface {
+export class createZone1616286025230 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
@@ -16,6 +16,18 @@ export class createZone1613581492725 implements MigrationInterface {
                     name: "name",
                     type: "varchar",
                 },
+                {
+                    name: "rfidId",
+                    type: "varchar"
+                }
+            ],
+            foreignKeys: [
+                {
+                    name: "ZonesRfid",
+                    columnNames: ["rfidId"],
+                    referencedColumnNames: ["id"],
+                    referencedTableName: "rfids"
+                }
             ]
         }));
     }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import ZoneModel from "./ZoneModel";
 
 @Entity("agvs")
 export default class AgvModel {
@@ -14,4 +15,7 @@ export default class AgvModel {
 
     @Column()
     batteryPercentage: number;
+
+    @OneToMany(type => ZoneModel, zone => zone.id)
+    path: ZoneModel[]
 }

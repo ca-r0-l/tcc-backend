@@ -10,23 +10,24 @@ export default class ZoneRepositoryImpl implements ZoneRepository {
         await zoneRepository.delete(id);
     }
     
-    public async save(user: Zone): Promise<Zone> {
+    public async save(zone: Zone): Promise<Zone> {
         const zoneRepository = getRepository(ZoneModel);
 
-        const userToSave = {
-            id: user.id,
-            name: user.name
+        const zoneToSave = {
+            id: zone.id,
+            name: zone.name,
+            rfid: zone.rfid
         } as ZoneModel
         
         return this.toZone(await zoneRepository.save(
-            zoneRepository.create(userToSave)
+            zoneRepository.create(zoneToSave)
         ));
     }
 
     public async findAll(): Promise<Zone[]> {
         const zoneRepository = getRepository(ZoneModel);
         
-        const allZones = await zoneRepository.find();
+        const allZones = await zoneRepository.find({ relations: ["rfid"] });        
         return allZones.map(zone => this.toZone(zone));
     }
 
@@ -46,7 +47,8 @@ export default class ZoneRepositoryImpl implements ZoneRepository {
         if (zoneModel !== null && zoneModel !== undefined) {
             return {
                 id: zoneModel.id,
-                name: zoneModel.name
+                name: zoneModel.name,
+                rfid: zoneModel.rfid
             } as Zone;
         } else {
             return null;
