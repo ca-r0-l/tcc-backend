@@ -5,9 +5,9 @@ export default class Agv {
     public readonly id: string;
     public name: string;
     public helixId: string;
-    public batteryPercentage: number;
+    public batteryPercentage: number = 0;
     public location: string;
-    public path: Zone[];
+    public path?: Zone[];
 
     constructor(props: Omit<Agv, "id">, id?: string) {
         Object.assign(this, props);

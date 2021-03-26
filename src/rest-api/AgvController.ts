@@ -1,31 +1,42 @@
 import { Request, Response } from "express";
 import * as yup from 'yup';
-import Rfid from "../entities/Rfid";
-import RfidService from "../usecases/RfidService";
+import Agv from "../entities/Agv";
+import AgvService from "../usecases/AgvService";
 
 export default class AgvController {
-    constructor(private rfidService: RfidService) {}
+    constructor(private agvService: AgvService) {}
     
     public async save(req: Request, res: Response) {
         const {
             name,
-            zone,
-            helixId
+            helixId,
+            batteryPercentage,
+            location,
+            path
         } = req.body;
 
         const data = {
             name,
-            zone,
-            helixId
+            helixId,
+            batteryPercentage,
+            location,
+            path
         };
 
         const schema = yup.object().shape({
             name: yup.string().required(),
-            zone: yup.object().shape({
+            helixId: yup.string().required(),
+            location: yup.string(),
+            batteryPercentage: yup.string(),
+            path: yup.array().of(yup.object().shape({
                 id: yup.string().required(),
-                name: yup.string().required()
-            }),
-            helixId: yup.string().required()
+                name: yup.string().required(),
+                rfid: yup.object({
+                    id: yup.string().required(),
+                    name: yup.string().required(),
+                    helixId: yup.string().required()
+                })
+            })),
         });
 
         await schema.validate(data, {
@@ -33,12 +44,12 @@ export default class AgvController {
         });
 
         return res.status(201).json(
-            await this.rfidService.save(new Rfid(data))
+            await this.agvService.save(new Agv(data))
         );
     }
 
     public async findAll(req: Request, res: Response) {
-        return res.status(200).json(await this.rfidService.findAll());
+        return res.status(200).json(await this.agvService.findAll());
     }
 
     public async findById(req: Request, res: Response) {
@@ -54,7 +65,11 @@ export default class AgvController {
             abortEarly: false
         });
 
-        return res.status(200).json(await this.rfidService.findById(id));
+        return res.status(200).json(await this.agvService.findById(id));
+    }
+    
+    public async findAllFromHelix(req: Request, res: Response) {
+        return res.status(200).json(await this.agvService.findAllFromHelix());
     }
 
     public async delete(req: Request, res: Response) {
@@ -70,6 +85,6 @@ export default class AgvController {
             abortEarly: false
         });
 
-        return res.status(200).json(await this.rfidService.delete(id));
+        return res.status(200).json(await this.agvService.delete(id));
     }
 }

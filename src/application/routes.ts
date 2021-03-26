@@ -12,17 +12,22 @@ import RfidRepositoryImpl from "../persistence/postgresql/implementation/RfidRep
 import RfidController from "../rest-api/RfidController";
 import RfidService from "../usecases/RfidService";
 import HelixService from "../services/HelixService";
+import AgvService from "../usecases/AgvService";
+import AgvRepositoryImpl from "../persistence/postgresql/implementation/AgvRepositoryImpl";
+import AgvController from "../rest-api/AgvController";
 
 const routes = Router();
 
 const helixService = new HelixService();
 const userService = new UserService(new UserRepositoryImpl());
 const zoneService = new ZoneService(new ZoneRepositoryImpl());
+const agvService = new AgvService(new AgvRepositoryImpl(), helixService);
 const rfidService = new RfidService(new RfidRepositoryImpl(), helixService);
 
 const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
 const rfidController = new RfidController(rfidService);
+const agvController = new AgvController(agvService);
 
 routes.get('/user/:id', userController.findById.bind(userController));
 routes.delete('/user/:id', userController.delete.bind(userController));
@@ -43,5 +48,13 @@ routes.get('/rfid/:id', rfidController.findById.bind(rfidController));
 routes.delete('/rfid/:id', rfidController.delete.bind(rfidController));
 routes.get('/rfid', rfidController.findAll.bind(rfidController));
 routes.post('/rfid', rfidController.save.bind(rfidController));
+routes.post('/zone', zoneController.save.bind(zoneController));
+
+
+routes.get('/agv/helix', agvController.findAllFromHelix.bind(agvController));
+routes.get('/agv/:id', agvController.findById.bind(agvController));
+routes.delete('/agv/:id', agvController.delete.bind(agvController));
+routes.get('/agv', agvController.findAll.bind(agvController));
+routes.post('/agv', agvController.save.bind(agvController));
 
 export default routes;

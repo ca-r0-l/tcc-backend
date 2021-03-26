@@ -15,5 +15,4 @@ export default class Route {
             this.id = uuidv4();
         }
     }
-
 }

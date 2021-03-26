@@ -11,7 +11,6 @@ export default class ZoneRepositoryImpl implements RfidRepository {
         const rfidToSave = {
             id: rfid.id,
             name: rfid.name,
-            zone: rfid.zone,
             helixId: rfid.helixId,
         } as RfidModel
         
@@ -50,7 +49,6 @@ export default class ZoneRepositoryImpl implements RfidRepository {
             return {
                 id: rfidModel.id,
                 name: rfidModel.name,
-                zone: rfidModel.zone,
                 helixId: rfidModel.helixId
             } as Rfid;
         } else {

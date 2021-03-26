@@ -15,18 +15,6 @@ export class createZone1616286025230 implements MigrationInterface {
                 {
                     name: "name",
                     type: "varchar",
-                },
-                {
-                    name: "rfidId",
-                    type: "varchar"
-                }
-            ],
-            foreignKeys: [
-                {
-                    name: "ZonesRfid",
-                    columnNames: ["rfidId"],
-                    referencedColumnNames: ["id"],
-                    referencedTableName: "rfids"
                 }
             ]
         }));

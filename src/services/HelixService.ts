@@ -27,6 +27,15 @@ export default class HelixService {
         }
         return [];
     }
+
+    async getAllAgvsNames() {        
+        const res = await this.instance.get(`${this.URL_HELIX_API}/v2/entities`);
+        if (this.requestWasSuccessful(res.status)) {
+            const listFromHelix = res.data as HelixSensorsResponse[];
+            return this.getFromHelixListOnly(HelixSensorsTypeResponse.AGVMOLIS, listFromHelix);
+        }
+        return [];
+    }
     
     async getLastAgvBatteryStatus(agvName: string) {
         return await this.instance.get(`${this.URL_HELIX_API}/v2/entities`)

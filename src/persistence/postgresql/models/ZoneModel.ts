@@ -10,7 +10,7 @@ export default class ZoneModel {
     @Column()
     name: string;
 
-    @OneToOne(() => RfidModel)
-    @JoinColumn({ name: "rfidId" })
+    @OneToOne(type => RfidModel)
+    @JoinColumn()
     rfid: RfidModel;
 }
