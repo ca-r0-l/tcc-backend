@@ -1,5 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from "typeorm";
-import ZoneModel from "./ZoneModel";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("rfids")
 export default class RfidModel {

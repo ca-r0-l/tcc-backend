@@ -10,4 +10,6 @@ export default interface ZoneRepository {
     delete(id: string): Promise<void>
 
     findByName(name: string): Promise<Zone | null>
+    
+    update(id: string, zone: JSON): Promise<Zone | null>
 }

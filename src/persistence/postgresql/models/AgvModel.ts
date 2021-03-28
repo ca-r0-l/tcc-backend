@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import ZoneModel from "./ZoneModel";
 
 @Entity("agvs")
@@ -14,11 +14,12 @@ export default class AgvModel {
     helixId: string;
 
     @Column()
-    batteryPercentage: string;
+    batteryPercentage: number;
 
     @Column()
     location: string;
 
-    @Column()
-    path: string;
+    @OneToMany(() => ZoneModel, zones => zones.agv)
+    @JoinColumn({ name: "zoneId"})
+    path: ZoneModel[]
 }

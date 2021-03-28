@@ -42,6 +42,13 @@ export default class ZoneRepositoryImpl implements ZoneRepository {
 
         return this.toZone(await zoneRepository.findOne({ where : {name: name}}));
     }
+
+    public async update(id: string, zone: JSON): Promise<Zone | null> {
+        const zoneRepository = getRepository(ZoneModel);
+
+        const zoneFromDB = await zoneRepository.findOne({ where: { id: id } });
+        return null;
+    }
     
     private toZone(zoneModel?: ZoneModel): Zone | null{
         if (zoneModel !== null && zoneModel !== undefined) {

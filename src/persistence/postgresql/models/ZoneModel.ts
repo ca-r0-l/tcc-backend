@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import RfidModel from "./RfidModel";
+import AgvModel from "./AgvModel";
 
 @Entity("zones")
 export default class ZoneModel {
@@ -13,4 +14,8 @@ export default class ZoneModel {
     @OneToOne(type => RfidModel)
     @JoinColumn()
     rfid: RfidModel;
+
+    @ManyToOne(type => AgvModel, agv => agv.path)
+    @JoinColumn({ name: "zoneId"})
+    agv: AgvModel
 }

@@ -1,34 +1,27 @@
 import Agv from "../entities/Agv";
 import AgvRepository from "../gateways/AgvRepository";
 import HelixService from "../services/HelixService";
-import Zone from "../entities/Zone";
+import ZoneService from "./ZoneService";
 
 export default class AgvService {
 
     constructor(
         private agvRepository: AgvRepository,
         private helixService: HelixService,
+        private zoneService: ZoneService
     ) { }
 
     public async save(agv: Agv): Promise<Agv> {
 
         // await this.checkZoneNotExist(agv.name)
-        console.log(agv);
         
-        const zonesPath = agv.path.map(zone => {
-            return {
-                id: zone.id,
-                name: zone.name,
-                rfid: zone.rfid
-            } as Zone
-        });
         return await this.agvRepository.save({
             id: agv.id,
             name: agv.name,
             helixId: agv.helixId,
             location: agv.location,
             batteryPercentage: agv.batteryPercentage,
-            path: zonesPath
+            path: agv.path
         } as Agv);
     }
     

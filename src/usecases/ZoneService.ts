@@ -48,4 +48,8 @@ export default class ZoneService {
     public async delete(id: string): Promise<void> {
         return await this.zoneRepository.delete(id);
     }
+
+    public async update(id: string, zone: JSON): Promise<void> {
+        return await this.zoneRepository.update(id, zone);
+    }
 }

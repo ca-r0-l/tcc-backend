@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import Rfid from "./Rfid";
+import Agv from "./Agv";
 
 export default class Zone {
     public readonly id: string;
