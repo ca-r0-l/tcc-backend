@@ -1,3 +1,4 @@
+import { jwt } from "jsonwebtoken";
 import { getRole, Role } from "../entities/Role";
 import User from "../entities/User";
 import UserRepository from "../gateways/UserRepository";
@@ -77,14 +78,14 @@ export default class UserService {
         return await this.userRepository.findAll();
     }
 
-    public async login(email: string, password: string, salt: string): Promise<boolean> {
+    public async login(email: string, password: string): Promise<string> {
         const user = await this.findByEmail(email);
 
         if (user) {
-            const hashedPassword = checkHashPassword(password, salt).passwordHash;
+            const hashedPassword = checkHashPassword(password, user.salt).passwordHash;
             const encryptedPassword = user.password;
             if (hashedPassword === encryptedPassword) {  
-                return true;
+                return jwt.sign({ sub: user.id }, process.env.SECRET, { expiresIn: '1d' });
             } else {  
                 throw new PasswordNotMatchError("Senha incorreta");
             }  

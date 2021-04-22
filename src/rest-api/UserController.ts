@@ -82,20 +82,17 @@ export default class UserController {
     public async login(req: Request, res: Response) {
         const {
             email,
-            password,
-            salt
+            password
         } = req.body;
 
         const data = {
             email,
-            password,
-            salt
+            password
         };
 
         const schema = yup.object().shape({
             email: yup.string().email().required(),
-            password: yup.string().required(),
-            salt: yup.string().required()
+            password: yup.string().required()
         });
 
         await schema.validate(data, {
@@ -103,7 +100,7 @@ export default class UserController {
         });
 
         return res.status(200).json(
-            await this.userService.login(email, password, salt)
+            await this.userService.login(email, password)
         );
 
     }
