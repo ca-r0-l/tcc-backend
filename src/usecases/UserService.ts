@@ -1,5 +1,5 @@
-import { jwt } from "jsonwebtoken";
 import { getRole, Role } from "../entities/Role";
+import jwt from "jsonwebtoken";
 import User from "../entities/User";
 import UserRepository from "../gateways/UserRepository";
 import InputError from "../errors/InputError";
