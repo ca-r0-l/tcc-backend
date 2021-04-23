@@ -35,7 +35,6 @@ export default class UserController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(201).json(
             await this.userService.save(new User(data))
         );
@@ -73,7 +72,6 @@ export default class UserController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(201).json(
             await this.userService.update(data)
         );
@@ -98,7 +96,6 @@ export default class UserController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(
             await this.userService.login(email, password)
         );
@@ -121,7 +118,6 @@ export default class UserController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.userService.findById(id));
     }
 
@@ -137,7 +133,6 @@ export default class UserController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.userService.delete(id));
     }
 }

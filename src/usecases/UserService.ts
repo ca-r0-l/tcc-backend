@@ -6,6 +6,7 @@ import InputError from "../errors/InputError";
 import { checkHashPassword, saltHashPassword } from "../services/LoginService";
 import EmailNotFoundError from "../errors/EmailNotFoundError";
 import PasswordNotMatchError from "../errors/PasswordNotMatchError";
+import UserLoggedIn from "../entities/UserLoggedIn";
 
 export default class UserService {
 
@@ -78,14 +79,14 @@ export default class UserService {
         return await this.userRepository.findAll();
     }
 
-    public async login(email: string, password: string): Promise<string> {
+    public async login(email: string, password: string): Promise<UserLoggedIn> {
         const user = await this.findByEmail(email);
 
         if (user) {
             const hashedPassword = checkHashPassword(password, user.salt).passwordHash;
             const encryptedPassword = user.password;
             if (hashedPassword === encryptedPassword) {  
-                return jwt.sign({ sub: user.id }, process.env.SECRET, { expiresIn: '1d' });
+                return new UserLoggedIn(user, jwt.sign({ sub: user.id }, process.env.SECRET, { expiresIn: '1d' }));
             } else {  
                 throw new PasswordNotMatchError("Senha incorreta");
             }  

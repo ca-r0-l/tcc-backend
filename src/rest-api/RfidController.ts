@@ -52,7 +52,6 @@ export default class RfidController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.rfidService.findById(id));
     }
 
@@ -68,7 +67,6 @@ export default class RfidController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.rfidService.delete(id));
     }
 }

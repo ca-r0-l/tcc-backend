@@ -49,7 +49,7 @@ export default class ZoneService {
         return await this.zoneRepository.delete(id);
     }
 
-    public async update(id: string, zone: JSON): Promise<void> {
+    public async update(id: string, zone: JSON): Promise<Zone | null> {
         return await this.zoneRepository.update(id, zone);
     }
 }

@@ -29,7 +29,6 @@ export default class ZoneController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(201).json(
             await this.zoneService.save(new Zone(data))
         );
@@ -51,7 +50,6 @@ export default class ZoneController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.zoneService.findById(id));
     }
 
@@ -67,7 +65,6 @@ export default class ZoneController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.zoneService.findByName(name));
     }
 
@@ -83,7 +80,6 @@ export default class ZoneController {
         await schema.validate(data, {
             abortEarly: false
         });
-
         return res.status(200).json(await this.zoneService.delete(id));
     }
 }

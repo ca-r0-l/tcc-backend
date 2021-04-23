@@ -84,7 +84,7 @@ export default class AgvController {
         await schema.validate(data, {
             abortEarly: false
         });
-
+        
         return res.status(200).json(await this.agvService.delete(id));
     }
 }
