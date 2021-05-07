@@ -59,6 +59,6 @@ routes.delete('/agv/:id', agvController.delete.bind(agvController));
 routes.get('/agv', agvController.findAll.bind(agvController));
 routes.post('/agv', agvController.save.bind(agvController));
 
-routes.post('/health', healthController.health.bind(healthController));
+routes.get('/health', healthController.health.bind(healthController));
 
 export default routes;
