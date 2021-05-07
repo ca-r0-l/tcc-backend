@@ -16,5 +16,6 @@ module.exports = {
     "cli": {
       "migrationsDir": "./src/database/postgresql/migrations"
     },
-    "synchronize": "true"
+    "synchronize": "true",
+    "autoLoadEntities": "true"
   }
