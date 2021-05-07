@@ -7,11 +7,11 @@ module.exports = {
     "databasename": process.env.DATABASE_NAME,
     "migrations": [
       "./src/database/postgresql/migrations/*.ts",
-      __dirname + "./dist/database/postgresql/migrations/*.js"
+      "./dist/database/postgresql/migrations/*.js"
     ],
     "entities": [
       "./src/persistence/postgresql/models/*.ts",
-      __dirname + "./dist/persistence/postgresql/models/*.js"
+      "./dist/persistence/postgresql/models/*.js"
     ],
     "cli": {
       "migrationsDir": "./src/database/postgresql/migrations"
