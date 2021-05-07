@@ -18,9 +18,9 @@ export default class RfidService {
     }
 
     private async checkRfidExist(helixId: string): Promise<void> {
-        const user = await this.findByHelixId(helixId);
-        if (user !== null) {
-            throw new RfidExistsError("Rfid já existe");
+        const rfid = await this.findByHelixId(helixId);
+        if (rfid !== null) {
+            throw new RfidExistsError("Rfid com esse id do Helix já existe");
         }
     }
 

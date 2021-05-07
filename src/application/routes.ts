@@ -15,6 +15,7 @@ import HelixService from "../services/HelixService";
 import AgvService from "../usecases/AgvService";
 import AgvRepositoryImpl from "../persistence/postgresql/implementation/AgvRepositoryImpl";
 import AgvController from "../rest-api/AgvController";
+import HealthController from "../rest-api/HealthController";
 
 const routes = Router();
 
@@ -28,6 +29,7 @@ const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
 const rfidController = new RfidController(rfidService);
 const agvController = new AgvController(agvService);
+const healthController = new HealthController();
 
 routes.get('/user/:id', userController.findById.bind(userController));
 routes.delete('/user/:id', userController.delete.bind(userController));
@@ -56,5 +58,7 @@ routes.get('/agv/:id', agvController.findById.bind(agvController));
 routes.delete('/agv/:id', agvController.delete.bind(agvController));
 routes.get('/agv', agvController.findAll.bind(agvController));
 routes.post('/agv', agvController.save.bind(agvController));
+
+routes.post('/health', healthController.health.bind(healthController));
 
 export default routes;

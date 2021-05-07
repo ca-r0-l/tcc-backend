@@ -5,6 +5,7 @@ import InputError from "./InputError";
 import PasswordNotMatchError from "./PasswordNotMatchError";
 import ZoneExistsError from "./ZoneExistsError";
 import RfidExistsError from "./RfidExistsError";
+import { UnauthorizedError } from "express-jwt";
 
 interface ValidationErrors {
     [key: string]: string[];
@@ -39,6 +40,10 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
 
     if (error instanceof RfidExistsError) {
         return res.status(400).json({ message: error.message });
+    }
+
+    if (error instanceof UnauthorizedError) {
+        return res.status(403).json({ message: error.message });
     }
 
     console.error(error);
