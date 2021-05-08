@@ -71,6 +71,22 @@ export default class AgvController {
     public async findAllFromHelix(req: Request, res: Response) {
         return res.status(200).json(await this.agvService.findAllFromHelix());
     }
+    
+    public async getLastLocationFromHelix(req: Request, res: Response) {
+        const { id } = req.params;
+
+        const data = { id };
+
+        const schema = yup.object().shape({
+            id: yup.string().required()
+        });
+
+        await schema.validate(data, {
+            abortEarly: false
+        });
+
+        return res.status(200).json(await this.agvService.getLastAgvStatusById(id));
+    }
 
     public async delete(req: Request, res: Response) {
         const { id } = req.params;

@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only --trace-warnings --ignore-watch node_modules src/application/server.ts",
+    "dev": "set DEBUG=* & ts-node-dev --transpile-only --trace-warnings --ignore-watch node_modules src/application/server.ts",
     "build": "tsc",
     "prod": "set DEBUG=* & ts-node dist/application/server.js",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"

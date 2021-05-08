@@ -1,13 +1,11 @@
 import Rfid from "../entities/Rfid";
 import RfidRepository from "../gateways/RfidRepository";
 import RfidExistsError from "../errors/RfidExistsError";
-import HelixService from "../services/HelixService";
 
 export default class RfidService {
 
     constructor(
-        private rfidRepository: RfidRepository,
-        private helixService: HelixService
+        private rfidRepository: RfidRepository
     ) { }
 
     public async save(rfid: Rfid): Promise<Rfid> {
@@ -34,10 +32,6 @@ export default class RfidService {
 
     public async findAll(): Promise<Rfid[]> {
         return await this.rfidRepository.findAll();
-    }
-
-    public async findAllFromHelix(): Promise<any> {
-        return await this.helixService.getAllRfidsNames();
     }
 
     public async delete(id: string): Promise<void> {

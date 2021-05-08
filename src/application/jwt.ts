@@ -5,7 +5,8 @@ export default function jwt() {
     return expressJwt({ secret, algorithms: ['HS256'] }).unless({
         path: [
             '/login',
-            '/health'
+            '/health',
+            '/agv/helix',
         ]
     });
 }

@@ -1,58 +1,37 @@
 import axios from "axios";
 
 export default class HelixService {
-    private URL_HELIX_API = "http://localhost:3000"
-    private instance;
+    private URL_HELIX_API_BROKER = `http://${process.env.URL_HELIX_API}:1026`;
+    private headers = { 'Accept': 'application/json', 'fiware-service': 'helixiot', 'fiware-servicepath': '/' };
 
-    constructor() {
-        this.instance = axios.create({
-            baseURL: this.URL_HELIX_API,
-            timeout: 5000,
-            headers: { 'Accept': 'application/json', 'fiware-service': 'helixiot', 'fiware-servicepath': '/' }
-          });
-    }
+    constructor() { }
 
-    async getAllAgvs() {
-        const res = await this.instance.get(`${this.URL_HELIX_API}/v2/entities\\?attrs\\=id`) as HelixSensorsResponse;
-        console.log(res);
+    async getAllAgvsNames(): Promise<string[]> {
+        const res = await axios.get(`${this.URL_HELIX_API_BROKER}/v2/entities?type=agv-molis`, { headers: this.headers });
         
-        return res;
-    }
-
-    async getAllRfidsNames() {        
-        const res = await this.instance.get(`${this.URL_HELIX_API}/v2/entities`);
-        if (this.requestWasSuccessful(res.status)) {
-            const listFromHelix = res.data as HelixSensorsResponse[];
-            return this.getFromHelixListOnly(HelixSensorsTypeResponse.SENSOR, listFromHelix);
+        if (this.requestWasSuccessful(res.status) && res.data.length > 0) {
+            return (res.data as HelixIdResponse[]).map(i => i.id);
         }
         return [];
     }
 
-    async getAllAgvsNames() {        
-        const res = await this.instance.get(`${this.URL_HELIX_API}/v2/entities`);
-        if (this.requestWasSuccessful(res.status)) {
-            const listFromHelix = res.data as HelixSensorsResponse[];
-            return this.getFromHelixListOnly(HelixSensorsTypeResponse.AGVMOLIS, listFromHelix);
+    async getLastAgvStatusById(id: string): Promise<HelixGetSensorResponse> {
+        const res = await axios.get(`${this.URL_HELIX_API_BROKER}/v2/entities/${id}`, { headers: this.headers });
+        
+        if (this.requestWasSuccessful(res.status) && res.data !== null) {
+            return {
+                name: res.data.id,
+                location: {
+                    value: res.data.location.value,
+                    lastUpdate: res.data.location.metadata.TimeInstant.value
+                },
+                voltage: {
+                    value: res.data.voltage.value,
+                    lastUpdate: res.data.voltage.metadata.TimeInstant.value
+                }
+            } as HelixGetSensorResponse;
         }
-        return [];
-    }
-    
-    async getLastAgvBatteryStatus(agvName: string) {
-        return await this.instance.get(`${this.URL_HELIX_API}/v2/entities`)
-    }
-
-    async getLastAgvLocationStatus(agvName: string) {
-        return await this.instance.get(`${this.URL_HELIX_API}/v2/entities`)
-    }
-
-    async getEntities() {
-        return await this.instance.get(`${this.URL_HELIX_API}/v2/entities`)
-    }
-
-    private getFromHelixListOnly(type: HelixSensorsTypeResponse, list: HelixSensorsResponse[]): HelixSensorsNamesResponse[] {
-        return list
-            .filter(item => item.type === type)
-            .map(item  => item.id as unknown as HelixSensorsNamesResponse);
+        return null;
     }
 
     private requestWasSuccessful(status: number): boolean {
@@ -60,29 +39,17 @@ export default class HelixService {
     }
 }
 
-export interface HelixLocationResponse {
-    location: {
-        type: string,
-        value: string,
-        metadata: {
-            TimeInstant: {
-                type: string,
-                value: string
-            }
-        }
-    }
+export interface HelixGetSensorResponse {
+    name: string,
+    location: HelixSensorsGetSensorDetailResponse,
+    voltage: HelixSensorsGetSensorDetailResponse
 }
 
-export interface HelixSensorsResponse {
-    id: string,
-    type: HelixSensorsTypeResponse
+export interface HelixSensorsGetSensorDetailResponse {
+    value: string,
+    lastUpdate: string
 }
 
-export interface HelixSensorsNamesResponse {
-    name: string
-}
-
-enum HelixSensorsTypeResponse {
-    AGVMOLIS = "agvmolis",
-    SENSOR = "sensor"
+export interface HelixIdResponse {
+    id: string
 }
