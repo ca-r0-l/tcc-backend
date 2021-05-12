@@ -86,7 +86,7 @@ export default class UserService {
             const hashedPassword = checkHashPassword(password, user.salt).passwordHash;
             const encryptedPassword = user.password;
             if (hashedPassword === encryptedPassword) {  
-                return new UserLoggedIn(user, jwt.sign({ sub: user.id }, process.env.SECRET, { expiresIn: '1d' }));
+                return new UserLoggedIn(user, jwt.sign({ sub: user.id }, process.env.SECRET, { expiresIn: '300d' }));
             } else {  
                 throw new PasswordNotMatchError("Senha incorreta");
             }  

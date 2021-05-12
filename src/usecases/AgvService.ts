@@ -6,7 +6,7 @@ export default class AgvService {
 
     constructor(
         private agvRepository: AgvRepository,
-        private helixService: HelixService
+        private helixService: HelixService,
     ) { }
 
     public async save(agv: Agv): Promise<Agv> {
@@ -33,7 +33,20 @@ export default class AgvService {
     }
 
     public async findAll(): Promise<Agv[]> {
-        return await this.agvRepository.findAll();
+        const agvs = await this.agvRepository.findAll();
+
+        return agvs.map(agv => {
+            const location = agv.path.find(i => i.id === agv.location);
+
+            return {
+                id: agv.id,
+                name: agv.name,
+                helixId: agv.helixId,
+                batteryPercentage: agv.batteryPercentage,
+                location: location.name,
+                path: agv.path,
+            } as Agv
+        })
     }
 
     public async delete(id: string): Promise<void> {

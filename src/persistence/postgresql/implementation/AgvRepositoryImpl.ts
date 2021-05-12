@@ -48,7 +48,8 @@ export default class AgvRepositoryImpl implements AgvRepository {
     public async findAll(): Promise<Agv[]> {
         const agvRepository = getRepository(AgvModel);
         
-        const allAgvs = await agvRepository.find({ relations: ["path"] });        
+        const allAgvs = await agvRepository.find({ relations: ["path"] });
+        
         return allAgvs.map(agv => this.toAgv(agv));
     }
 

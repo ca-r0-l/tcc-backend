@@ -22,8 +22,8 @@ const routes = Router();
 const helixService = new HelixService();
 const userService = new UserService(new UserRepositoryImpl());
 const zoneService = new ZoneService(new ZoneRepositoryImpl());
-const agvService = new AgvService(new AgvRepositoryImpl(), helixService);
 const rfidService = new RfidService(new RfidRepositoryImpl());
+const agvService = new AgvService(new AgvRepositoryImpl(), helixService);
 
 const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
