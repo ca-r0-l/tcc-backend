@@ -1,21 +1,27 @@
 import Agv from "../entities/Agv";
 import AgvRepository from "../gateways/AgvRepository";
-import HelixService from "../services/HelixService";
+import HelixService, { HelixGetSensorResponse } from "../services/HelixService";
+import RfidService from "./RfidService";
 
 export default class AgvService {
 
     constructor(
         private agvRepository: AgvRepository,
         private helixService: HelixService,
+        private rfidService: RfidService,
     ) { }
 
     public async save(agv: Agv): Promise<Agv> {
+        const agvFromHelix = await this.getLastAgvStatusById(agv.helixId);
+        const rfidInTheMoment = await this.rfidService.findByHelixId(agvFromHelix.location.value);        
+        const zoneInTheMoment = agv.path.find(i => i.rfid.id == rfidInTheMoment.id);
+
         return await this.agvRepository.save({
             id: agv.id,
             name: agv.name,
             helixId: agv.helixId,
-            location: agv.location,
-            batteryPercentage: agv.batteryPercentage,
+            location: zoneInTheMoment.id,
+            batteryPercentage: Number.parseInt(agvFromHelix.voltage.value) * 100,
             path: agv.path
         } as Agv);
     }
@@ -24,7 +30,7 @@ export default class AgvService {
         return await this.helixService.getAllAgvsNames();
     }
 
-    public async getLastAgvStatusById(id: string): Promise<any> {
+    public async getLastAgvStatusById(id: string): Promise<HelixGetSensorResponse> {
         return await this.helixService.getLastAgvStatusById(id);
     }
 

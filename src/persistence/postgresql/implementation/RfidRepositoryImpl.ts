@@ -34,7 +34,7 @@ export default class ZoneRepositoryImpl implements RfidRepository {
 
     public async findByHelixId(id: string): Promise<Rfid | null> {
         const rfidRepository = getRepository(RfidModel);
-
+        
         return this.toRfid(await rfidRepository.findOne({ where : {helixId: id}}));
     }
 

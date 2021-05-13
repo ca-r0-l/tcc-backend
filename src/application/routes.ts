@@ -23,7 +23,7 @@ const helixService = new HelixService();
 const userService = new UserService(new UserRepositoryImpl());
 const zoneService = new ZoneService(new ZoneRepositoryImpl());
 const rfidService = new RfidService(new RfidRepositoryImpl());
-const agvService = new AgvService(new AgvRepositoryImpl(), helixService);
+const agvService = new AgvService(new AgvRepositoryImpl(), helixService, rfidService);
 
 const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
@@ -47,6 +47,7 @@ routes.post('/zone', zoneController.save.bind(zoneController));
 
 routes.get('/rfid/:id', rfidController.findById.bind(rfidController));
 routes.delete('/rfid/:id', rfidController.delete.bind(rfidController));
+routes.get('/rfid/helix/:id', rfidController.findByHelixId.bind(rfidController));
 routes.get('/rfid', rfidController.findAll.bind(rfidController));
 routes.post('/rfid', rfidController.save.bind(rfidController));
 routes.post('/zone', zoneController.save.bind(zoneController));
