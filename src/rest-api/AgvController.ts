@@ -9,34 +9,17 @@ export default class AgvController {
     public async save(req: Request, res: Response) {
         const {
             name,
-            helixId,
-            batteryPercentage,
-            location,
-            path
+            helixId
         } = req.body;
 
         const data = {
             name,
-            helixId,
-            batteryPercentage,
-            location,
-            path
+            helixId
         };
 
         const schema = yup.object().shape({
             name: yup.string().required(),
-            helixId: yup.string().required(),
-            location: yup.string(),
-            batteryPercentage: yup.string(),
-            path: yup.array().of(yup.object().shape({
-                id: yup.string().required(),
-                name: yup.string().required(),
-                rfid: yup.object({
-                    id: yup.string().required(),
-                    name: yup.string().required(),
-                    helixId: yup.string().required()
-                })
-            })),
+            helixId: yup.string().required()
         });
 
         await schema.validate(data, {
