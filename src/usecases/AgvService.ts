@@ -1,4 +1,5 @@
 import Agv from "../entities/Agv";
+import AgvExistsError from "../errors/AgvExistsError";
 import AgvRepository from "../gateways/AgvRepository";
 import HelixService, { HelixGetSensorResponse } from "../services/HelixService";
 import RfidService from "./RfidService";
@@ -14,6 +15,8 @@ export default class AgvService {
     ) { }
 
     public async save(agv: Agv): Promise<Agv> {
+        await this.verifyAlreadyExists(agv.helixId);
+
         const agvFromHelix = await this.getLastAgvStatusById(agv.helixId);
         const zones = await this.zoneService.findAll();
         const rfidInTheMoment = await this.rfidService.findByHelixId(agvFromHelix.location.value);
@@ -29,6 +32,14 @@ export default class AgvService {
         } as Agv);  
     }
 
+    private async verifyAlreadyExists(helixId: string): Promise<void> {
+        const agv = await this.findByHelixId(helixId);
+
+        if (agv !== null && agv !== undefined) {
+            throw new AgvExistsError("Agv com esse id do helix já existe");
+        }
+    }
+
     public async findAllFromHelix(): Promise<any> {
         return await this.helixService.getAllAgvsNames();
     }
@@ -41,18 +52,28 @@ export default class AgvService {
         return await this.agvRepository.findById(id);
     }
 
+    public async findByHelixId(helixId: string): Promise<Agv | null> {        
+        return await this.agvRepository.findByHelixId(helixId);
+    }
+
     public async findAll(): Promise<Agv[]> {
         const agvs = await this.agvRepository.findAll();
 
+        console.clear();
+        console.log(agvs)
+
         return agvs.map(agv => {
-            const location = agv.path.find(i => i.id === agv.location);
+            let location = "";
+            if (agv.path !== null && agv.path.length > 0) {
+                location = agv.path.find(i => i.id === agv.location).name;
+            }
 
             return {
                 id: agv.id,
                 name: agv.name,
                 helixId: agv.helixId,
                 batteryPercentage: agv.batteryPercentage,
-                location: location.name,
+                location: location,
                 path: agv.path,
             } as Agv
         })

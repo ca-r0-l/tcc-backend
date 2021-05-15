@@ -7,5 +7,7 @@ export default interface AgvRepository {
 
     findById(id: string): Promise<Agv | null>
 
+    findByHelixId(helixId: string): Promise<Agv | null>
+
     delete(id: string): Promise<void>
 }

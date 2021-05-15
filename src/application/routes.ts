@@ -54,8 +54,9 @@ routes.post('/zone', zoneController.save.bind(zoneController));
 
 
 routes.get('/agv/helix', agvController.findAllFromHelix.bind(agvController));
-routes.get('/agv/helix/:id', agvController.getLastLocationFromHelix.bind(agvController));
+routes.get('/agv/helix/last/:id', agvController.getLastLocationFromHelix.bind(agvController));
 routes.get('/agv/:id', agvController.findById.bind(agvController));
+routes.get('/agv/helix/:id', agvController.findByHelixId.bind(agvController));
 routes.delete('/agv/:id', agvController.delete.bind(agvController));
 routes.get('/agv', agvController.findAll.bind(agvController));
 routes.post('/agv', agvController.save.bind(agvController));

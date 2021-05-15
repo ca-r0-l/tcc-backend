@@ -59,6 +59,12 @@ export default class AgvRepositoryImpl implements AgvRepository {
         return this.toAgv(await agvRepository.findOne({ where : {id: id}}));
     }
 
+    public async findByHelixId(helixId: string): Promise<Agv | null> {
+        const agvRepository = getRepository(AgvModel);
+        
+        return this.toAgv(await agvRepository.findOne({ where : {helixId: helixId}}));
+    }
+
     public async findByName(name: string): Promise<Agv | null> {
         const agvRepository = getRepository(AgvModel);
 
