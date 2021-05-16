@@ -7,6 +7,7 @@ export default function jwt() {
             '/login',
             '/health',
             '/agv/helix',
+            '/user'
         ]
     });
 }
