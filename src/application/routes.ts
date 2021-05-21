@@ -16,9 +16,12 @@ import AgvService from "../usecases/AgvService";
 import AgvRepositoryImpl from "../persistence/postgresql/implementation/AgvRepositoryImpl";
 import AgvController from "../rest-api/AgvController";
 import HealthController from "../rest-api/HealthController";
+import BrokerController from "../rest-api/BrokerController";
+import BrokerService from "../services/BrokerService";
 
 const routes = Router();
 
+const brokerService = new BrokerService();
 const helixService = new HelixService();
 const userService = new UserService(new UserRepositoryImpl());
 const zoneService = new ZoneService(new ZoneRepositoryImpl());
@@ -30,6 +33,7 @@ const zoneController = new ZoneController(zoneService);
 const rfidController = new RfidController(rfidService);
 const agvController = new AgvController(agvService);
 const healthController = new HealthController();
+const brokerController = new BrokerController(brokerService);
 
 routes.get('/user/:id', userController.findById.bind(userController));
 routes.delete('/user/:id', userController.delete.bind(userController));
@@ -62,5 +66,7 @@ routes.get('/agv', agvController.findAll.bind(agvController));
 routes.post('/agv', agvController.save.bind(agvController));
 
 routes.get('/health', healthController.health.bind(healthController));
+
+routes.get('/broker/update', brokerController.receiveBrokerUpdate.bind(brokerController));
 
 export default routes;
