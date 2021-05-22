@@ -67,6 +67,6 @@ routes.post('/agv', agvController.save.bind(agvController));
 
 routes.get('/health', healthController.health.bind(healthController));
 
-routes.get('/broker/update', brokerController.receiveBrokerUpdate.bind(brokerController));
+routes.post('/broker/update', brokerController.receiveBrokerUpdate.bind(brokerController));
 
 export default routes;
