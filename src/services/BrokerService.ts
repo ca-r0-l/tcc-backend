@@ -10,15 +10,13 @@ export default class BrokerService {
         });
      }
 
-    public async receiveBrokerUpdate(): Promise<void> {
-        const topic = "update";
+    public async receiveBrokerUpdate(msg: any): Promise<void> {
+        const topic = "broker";
 
         const message = {
-            data: {
-                msg: "hello world"
-            },
+            data: { data: JSON.stringify(msg["data"]) },
             topic: topic
-        };
+        };      
                         
         await this._admin.messaging().send(message);
     }

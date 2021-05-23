@@ -8,7 +8,7 @@ export default function jwt() {
             req.originalUrl === "/login" && req.method === "POST" ||
             req.originalUrl === "/health" && req.method === "GET" ||
             req.originalUrl === "/agv/helix" && req.method === "GET" || 
-            req.originalUrl === "/broker/update" && req.method === "GET" 
+            req.originalUrl === "/broker/update" && req.method === "POST" 
         )
     });
 }
