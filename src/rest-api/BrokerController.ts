@@ -5,6 +5,7 @@ export default class BrokerController {
     constructor(private brokerService: BrokerService) {}
     
     public async receiveBrokerUpdate(req: Request, res: Response) {
+        console.log("\n\nBody =>" + req.body)
         return res.status(200).json(await this.brokerService.receiveBrokerUpdate(req.body));
     }
 }

@@ -17,7 +17,9 @@ export default class BrokerService {
             data: { data: JSON.stringify(msg["data"]) },
             topic: topic
         };      
-                        
+        
+        console.log("\n\nMensagem =>" + message);
+        
         await this._admin.messaging().send(message);
     }
 }
