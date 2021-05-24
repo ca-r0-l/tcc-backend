@@ -23,18 +23,6 @@ export default class AgvService {
         const zones = await this.zoneService.findAll();
         const rfidInTheMoment = await this.rfidService.findByHelixId(agvFromHelix.location.value);
         const zoneInTheMoment = zones.find(i => i.rfid.id == rfidInTheMoment.id);
-        const path = zones.map(zone => {
-            return {
-                id: zone.id,
-                name: zone.name,
-                rfif: {
-                    id: zone.rfid.id,
-                    name: zone.rfid.name,
-                    helixId: zone.rfid.helixId
-                } as unknown as RfidModel
-            } as unknown as ZoneModel
-           }
-        )
         
         return await this.agvRepository.save({
             id: agv.id,
@@ -42,7 +30,7 @@ export default class AgvService {
             helixId: agv.helixId,
             location: zoneInTheMoment.id,
             batteryPercentage: Math.round(Number.parseFloat(agvFromHelix.voltage.value)),
-            path: path
+            path: zones
         } as Agv);  
     }
 
