@@ -83,10 +83,11 @@ export default class AgvService {
 
     public async findAll(): Promise<Agv[]> {
         const agvs = await this.agvRepository.findAll();
+        const zones = await this.zoneService.findAll();
         return agvs.map(agv => {
             let location = "";
-            if (agv.path !== null && agv.path.length > 0) {
-                location = agv.path.find(i => i.id === agv.location).name;
+            if (zones !== null && zones.length > 0) {
+                location = zones.find(i => i.id === agv.location).name;
             }
 
             return {
@@ -95,7 +96,7 @@ export default class AgvService {
                 helixId: agv.helixId,
                 batteryPercentage: agv.batteryPercentage,
                 location: location,
-                path: agv.path,
+                path: zones,
             } as Agv
         })
     }

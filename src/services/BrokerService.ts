@@ -24,6 +24,7 @@ export default class BrokerService {
             topic: topic
         };
         
+        console.log("\n\n" + message)
         await this._admin.messaging().send(message);
     }
 }
