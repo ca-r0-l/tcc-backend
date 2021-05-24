@@ -2,8 +2,6 @@ import { getRepository } from "typeorm";
 import Agv from "../../../entities/Agv";
 import AgvRepository from "../../../gateways/AgvRepository";
 import AgvModel from "../models/AgvModel";
-import RfidModel from "../models/RfidModel";
-import ZoneModel from "../models/ZoneModel";
 
 export default class AgvRepositoryImpl implements AgvRepository {
     public async delete(id: string): Promise<void> {
@@ -16,29 +14,14 @@ export default class AgvRepositoryImpl implements AgvRepository {
 
         const agvRepository = getRepository(AgvModel);
 
-        const path = agv.path.map(zone =>{
-            return {
-                id: zone.id,
-                name: zone.name,
-                rfif: {
-                    id: zone.rfid.id,
-                    name: zone.rfid.name,
-                    helixId: zone.rfid.helixId
-                } as unknown as RfidModel
-            } as unknown as ZoneModel
-           }
-        )
-        
         const agvToSave = {
             id: agv.id,
             name: agv.name,
             helixId: agv.helixId,
             batteryPercentage: agv.batteryPercentage,
             location: agv.location,
-            path: path
+            path: agv.path
         } as AgvModel
-
-        agvToSave.path = path;
         
         return this.toAgv(await agvRepository.save(
             agvRepository.create(agvToSave)

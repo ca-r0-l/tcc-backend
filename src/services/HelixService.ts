@@ -18,16 +18,17 @@ export default class HelixService {
     async getLastAgvStatusById(id: string): Promise<HelixGetSensorResponse> {
         const res = await axios.get(`${this.URL_HELIX_API_BROKER}/v2/entities/${id}`, { headers: this.headers });
         
+        
         if (this.requestWasSuccessful(res.status) && res.data !== null) {
             return {
                 name: res.data.id,
                 location: {
                     value: res.data.location.value,
-                    lastUpdate: res.data.location.metadata.TimeInstant.value
+                    lastUpdate: res.data.TimeInstant.value
                 },
                 voltage: {
                     value: res.data.voltage.value,
-                    lastUpdate: res.data.voltage.metadata.TimeInstant.value
+                    lastUpdate: res.data.TimeInstant.value
                 }
             } as HelixGetSensorResponse;
         }
