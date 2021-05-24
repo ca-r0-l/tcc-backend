@@ -54,10 +54,10 @@ export default class AgvRepositoryImpl implements AgvRepository {
         return this.toAgv(await agvRepository.findOne({ where : {name: name}}));
     }
 
-    public async update(agv: Agv): Promise<void> {
+    public async update(id: string, newField: any): Promise<void> {
         const agvRepository = getRepository(AgvModel);
 
-        await agvRepository.update({ id: agv.id }, agv);
+        await agvRepository.update(id, newField);
     }
     
     private toAgv(agvModel?: AgvModel): Agv | null{

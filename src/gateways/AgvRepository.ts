@@ -11,5 +11,5 @@ export default interface AgvRepository {
 
     delete(id: string): Promise<void>
 
-    update(agv: Agv): Promise<void>
+    update(id: string, newField: any): Promise<void>
 }
