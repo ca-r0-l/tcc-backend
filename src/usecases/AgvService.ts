@@ -23,7 +23,7 @@ export default class AgvService {
         const zones = await this.zoneService.findAll();
         const rfidInTheMoment = await this.rfidService.findByHelixId(agvFromHelix.location.value);
         const zoneInTheMoment = zones.find(i => i.rfid.id == rfidInTheMoment.id);
-        const path = agv.path.map(zone =>{
+        const path = agv.path.map(zone => {
             return {
                 id: zone.id,
                 name: zone.name,

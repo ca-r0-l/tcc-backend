@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from "typeorm";
 import ZoneModel from "./ZoneModel";
 
 @Entity("agvs")
@@ -19,7 +19,7 @@ export default class AgvModel {
     @Column()
     location: string;
 
-    @OneToMany(() => ZoneModel, zones => zones.agv)
-    @JoinColumn({ name: "zoneId"})
+    @OneToMany(() => ZoneModel, zones => zones.agv, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "zoneId" })
     path: ZoneModel[]
 }
