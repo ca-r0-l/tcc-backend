@@ -41,7 +41,7 @@ export default class AgvService {
             name: agv.name,
             helixId: agv.helixId,
             location: zoneInTheMoment.id,
-            batteryPercentage: Math.round(Number.parseFloat(agvFromHelix.voltage.value) * 10),
+            batteryPercentage: Math.round(Number.parseFloat(agvFromHelix.voltage.value) * 100),
             path: path
         } as Agv);  
     }
@@ -95,7 +95,7 @@ export default class AgvService {
             id: agv.id,
             name: agv.name,
             helixId: agv.helixId,
-            batteryPercentage: Math.round(Number.parseFloat(voltage.toString()) * 10),
+            batteryPercentage: Math.round(Number.parseFloat(voltage.toString()) * 100),
             location: zoneInTheMoment.id,
             path: path
         } as Agv);
