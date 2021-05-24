@@ -23,10 +23,6 @@ export default class AgvService {
         const zones = await this.zoneService.findAll();
         const rfidInTheMoment = await this.rfidService.findByHelixId(agvFromHelix.location.value);
         const zoneInTheMoment = zones.find(i => i.rfid.id == rfidInTheMoment.id);
-        
-        console.log(agvFromHelix);
-        
-
         const path = agv.path.map(zone =>{
             return {
                 id: zone.id,
@@ -76,10 +72,14 @@ export default class AgvService {
 
     public async updateLocationAndBattery(helixId: string, location: string, voltage: number): Promise<void> {
         const agv = await this.agvRepository.findByHelixId(helixId);
+        
+        await this.agvRepository.delete(agv.id);
+
         const zones = await this.zoneService.findAll();
         const rfidInTheMoment = await this.rfidService.findByHelixId(location);
         const zoneInTheMoment = zones.find(i => i.rfid.id == rfidInTheMoment.id);
-        const path = zones.map(zone =>{
+        
+        const path = zones.map(zone => {
             return {
                 id: zone.id,
                 name: zone.name,
@@ -89,20 +89,17 @@ export default class AgvService {
                     helixId: zone.rfid.helixId
                 } as unknown as RfidModel
             } as unknown as ZoneModel
-           }
-        )
-        
+        });
 
-        const agvTosave = {
+        await this.agvRepository.save({
             id: agv.id,
             name: agv.name,
             helixId: agv.helixId,
-            batteryPercentage: voltage,
+            batteryPercentage: Number.parseFloat(voltage.toString()) * 10,
             location: zoneInTheMoment.id,
             path: path
-        } as Agv
-        await this.agvRepository.update(agvTosave);
-    }
+        } as Agv);
+    }   
 
     public async findAll(): Promise<Agv[]> {
         const agvs = await this.agvRepository.findAll();
