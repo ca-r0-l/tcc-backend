@@ -1,7 +1,7 @@
 import Agv from "../entities/Agv";
 
 export default interface AgvRepository {
-    save(zone: Agv): Promise<Agv>
+    save(agv: Agv): Promise<Agv>
     
     findAll(): Promise<Agv[]>
 
@@ -10,4 +10,6 @@ export default interface AgvRepository {
     findByHelixId(helixId: string): Promise<Agv | null>
 
     delete(id: string): Promise<void>
+
+    update(agv: Agv): Promise<void>
 }

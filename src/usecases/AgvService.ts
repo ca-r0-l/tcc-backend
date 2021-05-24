@@ -56,12 +56,24 @@ export default class AgvService {
         return await this.agvRepository.findByHelixId(helixId);
     }
 
+    public async updateLocationAndBattery(helixId: string, location: string, voltage: number): Promise<void> {
+        const agv = await this.agvRepository.findByHelixId(helixId);
+        const zones = await this.zoneService.findAll();
+        const rfidInTheMoment = await this.rfidService.findByHelixId(location);
+        const zoneInTheMoment = zones.find(i => i.rfid.id == rfidInTheMoment.id);
+
+        await this.agvRepository.update({
+            id: agv.id,
+            name: agv.name,
+            helixId: agv.helixId,
+            batteryPercentage: voltage * 100,
+            location: zoneInTheMoment.id,
+            path: zones
+        } as Agv);
+    }
+
     public async findAll(): Promise<Agv[]> {
         const agvs = await this.agvRepository.findAll();
-
-        console.clear();
-        console.log(agvs)
-
         return agvs.map(agv => {
             let location = "";
             if (agv.path !== null && agv.path.length > 0) {

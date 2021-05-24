@@ -21,12 +21,12 @@ import BrokerService from "../services/BrokerService";
 
 const routes = Router();
 
-const brokerService = new BrokerService();
 const helixService = new HelixService();
 const userService = new UserService(new UserRepositoryImpl());
 const zoneService = new ZoneService(new ZoneRepositoryImpl());
 const rfidService = new RfidService(new RfidRepositoryImpl());
 const agvService = new AgvService(new AgvRepositoryImpl(), helixService, rfidService, zoneService);
+const brokerService = new BrokerService(agvService);
 
 const userController = new UserController(userService);
 const zoneController = new ZoneController(zoneService);
