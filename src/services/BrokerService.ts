@@ -12,19 +12,17 @@ export default class BrokerService {
      }
 
     public async receiveBrokerUpdate(msg: BrokerUpdateHelix): Promise<void> {
-        const topic = "broker";
-
         await this.agvService.updateLocationAndBattery(
             msg.data[0].id,
             msg.data[0].location,
             msg.data[0].voltage);
-
+                
         const message = {
-            data: "update",
-            topic: topic
+            data: { data: "update"},
+            topic: "broker"
         };
-        
-        console.log("\n\n" + message)
+
+        console.log("\n\n" + JSON.stringify(message))
         await this._admin.messaging().send(message);
     }
 }
