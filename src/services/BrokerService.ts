@@ -49,8 +49,8 @@ export default class BrokerService {
 
     private calculatePercentage(voltage: number): number {
         const total = 8.4;
-        const minimium = 5.2;
-        return (voltage * 100) / total;
+        const minimum = 5.2;
+        return ((voltage - minimum) * 100) / (total - minimum);
     }
 }
 
