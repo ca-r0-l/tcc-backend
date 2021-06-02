@@ -18,7 +18,6 @@ export default class HelixService {
     async getLastAgvStatusById(id: string): Promise<HelixGetSensorResponse> {
         const res = await axios.get(`${this.URL_HELIX_API_BROKER}/v2/entities/${id}`, { headers: this.headers });
         
-        
         if (this.requestWasSuccessful(res.status) && res.data !== null) {
             return {
                 name: res.data.id,
@@ -33,6 +32,26 @@ export default class HelixService {
             } as HelixGetSensorResponse;
         }
         return null;
+    }
+
+    async setAlarmOn(id: string): Promise<void> {
+        const data = {
+            "on": {
+                "type": "command",
+                "value": ""
+            }
+        }
+        await axios.patch(`${this.URL_HELIX_API_BROKER}/v2/entities/${id}/attrs`, data, { headers: this.headers });
+    }
+
+    async setAlarmOff(id: string): Promise<void> {
+        const data = {
+            "off": {
+                "type": "command",
+                "value": ""
+            }
+        }
+        await axios.patch(`${this.URL_HELIX_API_BROKER}/v2/entities/${id}/attrs`, data, { headers: this.headers });
     }
 
     private requestWasSuccessful(status: number): boolean {
